@@ -1,0 +1,3 @@
+[submodule "SSM_2018"]
+	path = SSM_2018
+	url = git@github.com:AndreyAgeev/SSM_2018.git
