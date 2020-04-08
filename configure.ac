@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(abcde, 0.1)
+AC_INIT(ssm, 0.1)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -19,7 +19,7 @@ dnl Internationalization
 dnl ***************************************************************************
 IT_PROG_INTLTOOL([0.35.0])
 
-GETTEXT_PACKAGE=abcde
+GETTEXT_PACKAGE=ssm
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
@@ -52,7 +52,7 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 LT_INIT([win32-dll])
 
 
-dnl PKG_CHECK_MODULES(ABCDE, [glib-2.0 gobject-2.0 gmodule-2.0 gio-2.0 ])
+PKG_CHECK_MODULES(SSM, [Qt5Core ])
 
 
 
@@ -61,5 +61,5 @@ AC_OUTPUT([
 Makefile
 po/Makefile.in
 nsis/mingwbuild
-nsis/ABCDE.nsis
+nsis/SSM.nsis
 ])

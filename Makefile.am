@@ -20,44 +20,48 @@ AM_CPPFLAGS = \
         -DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
         -DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
         -DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	-IABCDE_SSM \
-	-I/usr/include/boost \
-        $(ABCDE_CFLAGS)
+	-ISSM_2018 \
+	-IHighFive/include \
+        $(SSM_CFLAGS)
 
 AM_CFLAGS =\
          -Wall\
          -g
 
-bin_PROGRAMS = abcde
+bin_PROGRAMS = ssm
 
-abcde_SOURCES = \
-        ABCDE_SSM/abcde.cpp \
-	ABCDE_SSM/deep.cpp \
-	ABCDE_SSM/distr.cpp \
-	ABCDE_SSM/main.cpp \
-	ABCDE_SSM/solution.cpp
+# headers that must be processed with moc to generate C++ source files
+ssm_qtheaders = SSM_2018/model.h
 
-abcde_HEADERS = \
-	ABCDE_SSM/abcde.h \
-	ABCDE_SSM/config.h \
-	ABCDE_SSM/deep.h \
-	ABCDE_SSM/distr.h \
-	ABCDE_SSM/model.h \
-	ABCDE_SSM/pch.h \
-	ABCDE_SSM/solution.h
+# the source files that will be generated via moc.  The string "_moc" is inserted
+# to, hopefully, avoid name collisions
+ssm_moc_sources = $(ssm_qtheaders:.h=_moc.cpp)
 
-abcdedir = \
-        $(includedir)/abcde
+ssm_SOURCES = \
+        SSM_2018/main.cpp \
+        SSM_2018/functions-grammar.cc \
+        $(ssm_moc_sources)
 
-abcde_CXXFLAGS = -fPIC \
+ssm_HEADERS = \
+        SSM_2018/data.h \
+        SSM_2018/parametrs.h \
+        SSM_2018/functions-grammar.h \
+        SSM_2018/nlreg.h \
+        $(ssm_qtheaders)
+
+ssmdir = \
+        $(includedir)/ssm
+
+ssm_CXXFLAGS = -fPIC \
                 -fopenmp
 
-abcde_CFLAGS = -fPIC
+ssm_CFLAGS = -fPIC
 
-abcde_LDFLAGS = -fPIC
+ssm_LDFLAGS = -fPIC
 
-abcde_LDADD = $(ABCDE_LIBS) \
-	-lboost_filesystem 
+ssm_LDADD = $(SSM_LIBS) \
+        -lhdf5 \
+        -lhdf5_cpp
 
 if NATIVE_WIN32
 abcde_LDFLAGS += -mwindows
