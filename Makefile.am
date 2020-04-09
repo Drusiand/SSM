@@ -64,9 +64,19 @@ ssm_LDADD = $(SSM_LIBS) \
         -lhdf5_cpp
 
 if NATIVE_WIN32
-abcde_LDFLAGS += -mwindows
+ssm_LDFLAGS += -mwindows
 endif
 
+# A traditional-style Make suffix rule for generating *_moc.cpp files from *.h
+# files via moc.  For the former (especially) to be recognized as a suffix,
+# you need to tell Automake about it via the `SUFFIXES` variable.
+# The mkdir is present to support out-of-source building.
+# Assumes that the MOC variable will be set by configure.
+.h_moc.cpp:
+	$(MKDIR_P) `dirname $@`
+	moc-qt5 -o $@ $(AM_CPPFLAGS) $<
+
+SUFFIXES = .h _moc.cpp
 
 EXTRA_DIST = \
 	$(INTLTOOL_FILES)
